@@ -1,0 +1,95 @@
+:root {
+  --my-hl-bg-color: #e8de9b;
+  --my-bq-bg-color: #d8dee3;
+}
+
+[data-theme="dark"] {
+  --my-hl-bg-color: #73671c;
+  --my-bq-bg-color: #363f44;
+}
+
+.markdown-body {
+  overflow: hidden;
+  padding: 6px;
+}
+
+.markdown-body > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-body > *:last-child {
+  margin-bottom: 0;
+}
+
+em {
+  font-style: normal;
+  background-color: var(--my-hl-bg-color);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  zoom: 80%;
+  margin: auto;
+}
+
+p > img + em::before {
+  content: "⯅ ";
+}
+
+p > img + em {
+  display: block;
+  text-align: center;
+  text-decoration: underline;
+  background-color: var(--secondary-background-color);
+}
+
+blockquote {
+  border-radius: 3px;
+  background-color: var(--my-bq-bg-color);
+  margin-left: 0;
+  margin-right: 0;
+  padding: 1em;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: auto;
+  max-width: 100%;
+  border-top: 2.27px solid var(--foreground-color);
+  border-bottom: 2.27px solid var(--foreground-color);
+  /* display: block; */
+  overflow-x: auto; /* does not work because element is not block */
+}
+/* add bottom border on column table headings  */
+table tr > th[scope="col"] {
+  border-bottom: 1.36px solid var(--foreground-color);
+}
+/* add right border on row table headings  */
+table tr > th[scope="row"] {
+  border-right: 1.36px solid var(--foreground-color);
+}
+table > tbody > tr:first-child > td,
+table > tbody > tr:first-child > th {
+  border-top: 1.36px solid var(--foreground-color);
+}
+table > tbody > tr:last-child > td,
+table > tbody > tr:last-child > th {
+  border-bottom: 1.36px solid var(--foreground-color);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.5em;
+}
+
+.katex .katex-html > .newline {
+  display: block;
+  padding-bottom: 4px;
+}
