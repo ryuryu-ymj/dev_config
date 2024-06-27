@@ -1,15 +1,10 @@
-pyenv init - | source
-
 if status is-interactive
   # Commands to run in interactive sessions can go here
 
   alias rm='rm -i'
   alias cp='cp -i'
   alias mv='mv -i'
-  alias ls='eza --icons'
-  alias la='eza -a --icons'
-  alias lt='eza -T --icons'
-  alias tp='trash -F'
+  alias la='ls -a'
 
   starship init fish | source
 
