@@ -38,8 +38,8 @@ vim.keymap.set('n', '<Leader>!', '<Cmd>bdelete!<CR>')
 vim.keymap.set('n', '<Leader>w', '<Cmd>write<CR>')
 
 -- ^, $の代わりにH, Lで行頭行末移動
-vim.keymap.set({ 'n', 'x' }, 'H', '^')
-vim.keymap.set({ 'n', 'x' }, 'L', '$')
+vim.keymap.set({ 'n', 'x', 'o' }, 'H', '^')
+vim.keymap.set({ 'n', 'x', 'o' }, 'L', '$')
 -- insertモードでemacs風のキーバインド
 vim.keymap.set('i', '<C-h>', '<BS>', { remap = true })
 vim.keymap.set('i', '<C-j>', '<CR>', { remap = true })
