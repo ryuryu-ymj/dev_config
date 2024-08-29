@@ -18,7 +18,7 @@ return {
     config = function()
         require('nvim-treesitter.configs').setup {
             -- A list of parser names
-            ensure_installed = { "vim", "lua", "python", "c", "rust", "fish", "html", "css", "javascript", "typescript" },
+            ensure_installed = { "vim", "lua", "markdown", "python", "c", "rust", "fish", "html", "css", "javascript", "typescript" },
             highlight = {
                 enable = true,
             },
