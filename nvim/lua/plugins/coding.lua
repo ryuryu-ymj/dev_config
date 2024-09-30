@@ -33,51 +33,6 @@ return {
         'hrsh7th/nvim-cmp',
         version = false, -- last release is way too old
         event = { "InsertEnter", "CmdlineEnter" },
-        dependencies = {
-            -- snipet engine
-            {
-                'L3MON4D3/LuaSnip',
-                config = function()
-                    -- vim.api.nvim_set_hl(0, 'LuasnipInsertNodePassive', { link = 'GruvboxRedUnderline' })
-                    -- vim.api.nvim_set_hl(0, 'LuasnipInsertNodeActive', { link = 'GruvboxAquaUnderline' })
-
-                    require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets" } })
-
-                    -- local types = require("luasnip.util.types")
-                    require("luasnip").setup({
-                        -- ext_opts = {
-                        --     [types.insertNode] = {
-                        --         active = {
-                        --             hl_group = "GruvboxAqua"
-                        --         },
-                        --         unvisited = {
-                        --             hl_group = "GruvboxRed"
-                        --         },
-                        --     },
-                        -- },
-                    })
-                end
-            },
-            -- Completion sources
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-cmdline',
-            'saadparwaiz1/cmp_luasnip',
-            -- 'hrsh7th/cmp-omni',
-            {
-                'uga-rosa/cmp-dictionary',
-                config = function()
-                    local dict = require('cmp_dictionary')
-                    dict.setup {
-                        paths = { vim.fn.stdpath('config') .. '/dict/en.dict' },
-                        exact_length = 4,
-                        -- max_number_items = 16,
-                    }
-                end
-            },
-            -- 'f3fora/cmp-spell',
-        },
         config = function()
             local cmp = require('cmp')
             local luasnip = require('luasnip')
@@ -196,6 +151,48 @@ return {
             })
         end,
     },
+    -- Completion sources
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'saadparwaiz1/cmp_luasnip',
+    {
+        'uga-rosa/cmp-dictionary',
+        config = function()
+            local dict = require('cmp_dictionary')
+            dict.setup {
+                paths = { vim.fn.stdpath('config') .. '/dict/en.dict' },
+                exact_length = 4,
+                first_case_insensitive = true,
+                -- max_number_items = 16,
+            }
+        end
+    },
+    -- snipet engine
+    {
+        'L3MON4D3/LuaSnip',
+        config = function()
+            -- vim.api.nvim_set_hl(0, 'LuasnipInsertNodePassive', { link = 'GruvboxRedUnderline' })
+            -- vim.api.nvim_set_hl(0, 'LuasnipInsertNodeActive', { link = 'GruvboxAquaUnderline' })
+
+            require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets" } })
+
+            -- local types = require("luasnip.util.types")
+            require("luasnip").setup({
+                -- ext_opts = {
+                --     [types.insertNode] = {
+                --         active = {
+                --             hl_group = "GruvboxAqua"
+                --         },
+                --         unvisited = {
+                --             hl_group = "GruvboxRed"
+                --         },
+                --     },
+                -- },
+            })
+        end
+    },
 
     -- Add/delete/replace surroundings such as (), "".
     {
@@ -205,6 +202,8 @@ return {
         config = function()
             require("nvim-surround").setup({
                 -- Configuration here, or leave empty to use defaults
+                aliases = {
+                }
             })
         end
     },
@@ -223,18 +222,21 @@ return {
             local rule = require('nvim-autopairs.rule')
             local cond = require('nvim-autopairs.conds')
 
-            npairs.get_rule('(')
-                :with_pair(cond.not_before_text('\\'))
-            npairs.get_rule('[')
-                :with_pair(cond.not_before_text('\\'))
-            npairs.get_rule('{')
-                :with_pair(cond.not_before_text('\\'))
             npairs.add_rules({
-                rule('$', '$', { "markdown", "tex" })
+                rule('$', '$', { "markdown", "tex", "typst" })
                     :with_pair(cond.not_after_regex('[^ \\t\\r\\n,.]', 1))
                     :with_move(function(opts)
                         return opts.next_char == opts.char
-                    end)
+                    end),
+                rule('(', ')', { "markdown", "tex", "typst" })
+                    :with_pair(cond.after_text('$'))
+                    :with_pair(cond.not_before_text('\\')),
+                rule('{', '}', { "markdown", "tex", "typst" })
+                    :with_pair(cond.after_text('$'))
+                    :with_pair(cond.not_before_text('\\')),
+                rule('[', ']', { "markdown", "tex", "typst" })
+                    :with_pair(cond.after_text('$'))
+                    :with_pair(cond.not_before_text('\\')),
             })
         end
     },
@@ -251,3 +253,4 @@ return {
         config = true,
     },
 }
+
