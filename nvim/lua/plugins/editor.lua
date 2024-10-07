@@ -29,9 +29,25 @@ return {
         "folke/trouble.nvim",
         opts = {
             modes = {
-                references = {
+                my_lsp_references = {
                     desc = "custom lsp references",
                     mode = "lsp_references",
+                    auto_close = true,
+                    auto_jump = true,
+                    focus = true,
+                    restore = false,
+                    keys = {
+                        ["<cr>"] = "jump_close",
+                        ["<esc>"] = "close",
+                    },
+                    params = {
+                        include_current = true,
+                        include_declaration = false,
+                    },
+                },
+                my_lsp_definitions = {
+                    desc = "custom lsp definitions",
+                    mode = "lsp_definitions",
                     auto_close = true,
                     auto_jump = true,
                     focus = true,

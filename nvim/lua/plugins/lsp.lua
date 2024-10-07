@@ -58,10 +58,8 @@ return {
                     vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, bufopts)
                     vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, bufopts)
                     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-                    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-                    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-                    -- vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references)
-                    vim.keymap.set('n', 'gr', "<cmd>Trouble references <cr>", bufopts)
+                    vim.keymap.set('n', 'gd', "<cmd>Trouble my_lsp_definitions <cr>", bufopts)
+                    vim.keymap.set('n', 'gr', "<cmd>Trouble my_lsp_references <cr>", bufopts)
                     vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
                     vim.keymap.set('n', '<Leader>ac', vim.lsp.buf.code_action, bufopts)
                     vim.keymap.set('n', '<Leader>l', function() vim.lsp.buf.format { async = true } end, bufopts)
@@ -228,4 +226,3 @@ return {
         config = true,
     }
 }
-
