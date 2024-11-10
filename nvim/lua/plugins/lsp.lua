@@ -119,8 +119,9 @@ return {
                 capabilities = capabilities,
                 init_options = {
                     settings = {
-                        args = {
-                            "--extend-select=W,COM,ICN",
+                        lint = {
+                            ignore = { "E741" },
+                            extendSelect = { "W", "COM", "ICN" },
                         },
                     },
                 },
