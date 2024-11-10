@@ -165,7 +165,7 @@ return {
                     },
                 }
             }
-            require('lspconfig')['ruff_lsp'].setup {
+            require('lspconfig')['ruff'].setup {
                 capabilities = capabilities,
                 init_options = {
                     settings = {
