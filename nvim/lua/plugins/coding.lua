@@ -2,7 +2,7 @@ return {
     -- Completion
     {
         'saghen/blink.cmp',
-        version = '*',
+        version = 'v0.12.3',
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
         opts = {
@@ -25,8 +25,10 @@ return {
 
                 ['<C-i>'] = { 'snippet_forward', 'fallback' },
                 ['<C-k>'] = { 'snippet_backward', 'fallback' },
+            },
 
-                cmdline = {
+            cmdline = {
+                keymap = {
                     preset = 'none',
                     ['<S-Tab>'] = { 'select_prev', 'fallback' },
                     ['<Tab>'] = { 'show', 'select_next', 'fallback' },
