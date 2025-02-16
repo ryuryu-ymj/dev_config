@@ -114,8 +114,8 @@ return {
     -- Fuzzy finder
     {
         'nvim-telescope/telescope.nvim',
-        -- version = '0.1.1',
         dependencies = { 'nvim-lua/plenary.nvim' },
+        tag = "0.1.8",
         cmd = 'Telescope',
         keys = {
             { '<Leader>ft',      '<Cmd>Telescope<CR>' },
@@ -123,6 +123,7 @@ return {
             { '<Leader><space>', ts_builtin('find_files') },
             { '<Leader>fo',      ts_builtin('oldfiles') },
             { '<Leader>fh',      ts_builtin('help_tags') },
+            { '<Leader>fl',      ts_builtin('live_grep') },
         },
         config = function()
             require('telescope').setup {

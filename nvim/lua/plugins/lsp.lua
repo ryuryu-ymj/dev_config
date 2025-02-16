@@ -17,11 +17,13 @@ return {
         config = function()
             -- Mappings.
             -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-            -- local opts = { noremap = true, silent = true, buffer = true }
-            -- vim.keymap.set('n', '<Leader>dk', vim.diagnostic.open_float, opts)
-            -- vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, opts)
-            -- vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, opts)
+            local opts = { noremap = true, silent = true }
+            vim.keymap.set('n', '<Leader>dk', vim.diagnostic.open_float, opts)
+            vim.keymap.set('n', 'g]', function() vim.diagnostic.goto_next({ float = false }) end, opts)
+            vim.keymap.set('n', 'g[', function() vim.diagnostic.goto_prev({ float = false }) end, opts)
             -- vim.keymap.set('n', '<Leader>dl', vim.diagnostic.setloclist, opts)
+            vim.keymap.set('n', '<Leader>dl', "<cmd>Trouble diagnostics toggle<cr>", opts)
+            vim.keymap.set('n', '<Leader>ds', "<cmd>Trouble symbols toggle focus=false<cr>", opts)
 
             -- Set diagnostics signs
             local signs = { Error = "󰅙 ", Warn = "󰀦 ", Hint = "󰌶 ", Info = "󰋽 " }
@@ -35,7 +37,8 @@ return {
                 { border = "rounded" })
 
             -- Add additional capabilities supported by nvim-cmp
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            -- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
@@ -51,14 +54,15 @@ return {
                     -- Mappings.
                     -- See `:help vim.lsp.*` for documentation on any of the below functions
                     local bufopts = { noremap = true, silent = true, buffer = bufnr }
-                    vim.keymap.set('n', '<Leader>dk', vim.diagnostic.open_float, bufopts)
+                    -- vim.keymap.set('n', '<Leader>dk', vim.diagnostic.open_float, bufopts)
                     -- vim.keymap.set('n', '<Leader>dl', vim.diagnostic.setloclist, bufopts)
-                    vim.keymap.set('n', '<Leader>dl', "<cmd>Trouble diagnostics toggle<cr>", bufopts)
-                    vim.keymap.set('n', '<Leader>ds', "<cmd>Trouble symbols toggle focus=false<cr>", bufopts)
-                    vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, bufopts)
-                    vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, bufopts)
+                    -- vim.keymap.set('n', 'g]', vim.diagnostic.goto_next, bufopts)
+                    -- vim.keymap.set('n', 'g[', vim.diagnostic.goto_prev, bufopts)
                     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+                    -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
                     vim.keymap.set('n', 'gd', "<cmd>Trouble my_lsp_definitions <cr>", bufopts)
+                    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+                    -- vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references)
                     vim.keymap.set('n', 'gr', "<cmd>Trouble my_lsp_references <cr>", bufopts)
                     vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
                     vim.keymap.set('n', '<Leader>ac', vim.lsp.buf.code_action, bufopts)
@@ -76,7 +80,8 @@ return {
                     -- vim.keymap.set('n', '<Leader>D', vim.lsp.buf.type_definition, bufopts)
 
                     -- カーソル下の変数などをハイライト
-                    if client.server_capabilities.documentHighlightProvider then
+                    -- if client.server_capabilities.documentHighlightProvider or client.name ~= "tinymist" then
+                    if client.supports_method "textDocument/formatting" then
                         -- vim.cmd [[
                         -- hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
                         -- hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
@@ -152,10 +157,21 @@ return {
         end
     },
 
+    -- Display prettier diagnostic messages.
+    {
+        "rachartier/tiny-inline-diagnostic.nvim",
+        event = "VeryLazy", -- Or `LspAttach`
+        priority = 1000,    -- needs to be loaded in first
+        config = function()
+            require('tiny-inline-diagnostic').setup()
+            vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
+        end
+    },
+
     -- Show lsp progress at the right bottom corner
     {
         'j-hui/fidget.nvim',
         event = { "BufReadPre", "BufNewFile" },
         config = true,
-    }
+    },
 }
